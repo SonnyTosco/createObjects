@@ -69,35 +69,50 @@
 // console.log(bus.speed);
 // console.log(global);
 
-new VehicleConstructor();
-
 function VehicleConstructor(name, wheels, passengers, speed){
   if(!(this instanceof VehicleConstructor)){
     return new VehicleConstructor(name, wheels, passengers, speed);
   }
-  var self = this;
-//private vars
-  var distance_traveled = 0;
-//private methods
-  function updateDistanceTraveled(){
-    distance_traveled += self.speed;
-  }
+  this.distance_traveled = 0;
+//private methods. None anymore since they wall were prototyped
 
 //public vars
+  var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  this.speed = speed || 15;
   this.name = name || "hooptie";
   this.wheels = wheels || 4;
   this.passengers = passengers || 3;
-  this.speed = speed || 15;
+  this.vin = createVin();
 
-  this.makeNoise = function(noise){
-    var noise = noise || "Honk honk";
-    console.log(noise);
-  }
-  this.move = function(){
-    updateDistanceTraveled();
-    this.makeNoise();
-  }
-  this.checkMiles = function(){
-    return distance_traveled;
+  function createVin(){
+    var vin = '';
+    for (var i = 0; i < 17; i+=1){
+      vin += chars[Math.floor(Math.random()*35)];
+    }
+    return vin;
   }
 }
+
+VehicleConstructor.prototype.makeNoise = function(noise){
+  var noise = noise || "Honk honk";
+  console.log(noise);
+  return this;
+}
+
+VehicleConstructor.prototype.move = function(){
+  this.makeNoise();
+  this.updateDistanceTraveled();
+  return this;
+}
+
+VehicleConstructor.prototype.checkMiles = function(){
+  console.log(this.distance_traveled);
+  return this;
+}
+
+VehicleConstructor.prototype.updateDistanceTraveled = function(){
+  this.distance_traveled += this.speed;
+  console.log(this.distance_traveled);
+}
+
+var car = new VehicleConstructor('car', 4, 4, 80);
