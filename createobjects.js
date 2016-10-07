@@ -101,6 +101,3 @@ function VehicleConstructor(name, wheels, passengers, speed){
     return distance_traveled;
   }
 }
-
-var bus = VehicleConstructor('Bus', 8, 35, 60);
-console.log(bus.speed);
